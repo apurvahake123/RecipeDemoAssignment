@@ -1,7 +1,9 @@
-package com.example.Recipe.Recipedemo.DTO;
+package com.example.Recipe.Recipedemo.dto;
 
 import com.example.Recipe.Recipedemo.entity.Recipe;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class RecipeDTO {
     Integer recipeid;
     String recipename;
@@ -10,6 +12,10 @@ public class RecipeDTO {
     Integer serve;
     String ingredients;
     String instructions;
+
+    public RecipeDTO() {
+
+    }
 
     public Integer getRecipeid() {
         return recipeid;

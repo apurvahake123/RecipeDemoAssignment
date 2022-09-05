@@ -1,20 +1,26 @@
-package com.example.Recipe.Recipedemo.Service;
+package com.example.Recipe.Recipedemo.service;
 
-import com.example.Recipe.Recipedemo.DTO.RecipeDTO;
-import com.example.Recipe.Recipedemo.Repository.RecipeRepository;
+import com.example.Recipe.Recipedemo.dto.RecipeDTO;
 import com.example.Recipe.Recipedemo.entity.Recipe;
+import com.example.Recipe.Recipedemo.repository.RecipeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-
+@Slf4j
 @Service
-public class RecipeService {
+@Component
+public class RecipeServiceImpl implements RecipeService {
     @Autowired
     RecipeRepository recipeRepository;
-    public List<RecipeDTO> getAllRecipes() {
+    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
+    }
+
+    public List<RecipeDTO> getAllRecipes() throws Exception {
         List<Recipe> recipes = recipeRepository.findAll();
         List<RecipeDTO> recipeDTOs = new ArrayList<RecipeDTO>();
         for (Recipe recipe : recipes) {
@@ -24,10 +30,9 @@ public class RecipeService {
         return recipeDTOs;
     }
 
-
     public RecipeDTO getRecipe(Integer recipeid) throws Exception {
         Optional<Recipe> optional = recipeRepository.findById(recipeid);
-        Recipe recipe = optional.orElseThrow(() -> new Exception("Service.Recipe_NOT_FOUND"));
+        Recipe recipe = optional.orElseThrow(() -> new Exception("service.Recipe_NOT_FOUND"));
         RecipeDTO recipe2 = new RecipeDTO();
         recipe2 = RecipeDTO.valueOf(recipe);
         return recipe2;
@@ -37,10 +42,12 @@ public class RecipeService {
         Recipe recipeEntity2 = recipeRepository.save(recipeEntity);
         return recipeEntity2.getRecipeid();
     }
-    public void deleteRecipe(Integer recipeid) throws Exception {
+    public List<Recipe> deleteRecipe(Integer recipeid) throws Exception {
         Optional<Recipe> recipe = recipeRepository.findById(recipeid);
-        recipe.orElseThrow(() -> new Exception("Service.Recipe_NOT_FOUND"));
+        recipe.orElseThrow(() -> new Exception("service.Recipe_NOT_FOUND"));
         recipeRepository.deleteById(recipeid);
+
+        return null;
     }
     public Recipe updateRecipe(RecipeDTO recipeDTO) throws Exception {
         Recipe recipe = recipeDTO.createEntity();
@@ -72,6 +79,8 @@ public class RecipeService {
         return recipeDTOs;
     }
 }
+
+
 
 
 

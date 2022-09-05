@@ -1,19 +1,28 @@
 package com.example.Recipe.Recipedemo.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table
+@Builder
+@AllArgsConstructor
 public class Recipe {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer recipeid;
     String recipename;
     String recipetype;
     Integer serve;
     String ingredients;
     String instructions;
+
+    public Recipe() {
+
+    }
 
     public Integer getRecipeid() {
         return recipeid;

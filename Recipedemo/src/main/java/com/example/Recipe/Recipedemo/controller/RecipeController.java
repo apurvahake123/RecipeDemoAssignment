@@ -1,9 +1,9 @@
-package com.example.Recipe.Recipedemo.Controller;
+package com.example.Recipe.Recipedemo.controller;
 
-import com.example.Recipe.Recipedemo.DTO.RecipeDTO;
-import com.example.Recipe.Recipedemo.Repository.RecipeRepository;
-import com.example.Recipe.Recipedemo.Service.RecipeService;
+import com.example.Recipe.Recipedemo.dto.RecipeDTO;
+import com.example.Recipe.Recipedemo.repository.RecipeRepository;
 import com.example.Recipe.Recipedemo.entity.Recipe;
+import com.example.Recipe.Recipedemo.service.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,12 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @RestController
-@CrossOrigin
 public class RecipeController {
 
     //   Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -81,7 +79,7 @@ public class RecipeController {
     @PostMapping(value = "/recipe")
     public ResponseEntity<String> addRecipe(@RequestBody RecipeDTO recipe) throws Exception {
         Integer recipeid = recipeService.addRecipe(recipe);
-        String successMessage = environment.getProperty("API.INSERT_SUCCESS") + recipeid;
+        String successMessage = environment.getProperty("API.INSERT_SUCCESS");
         log.info("Add all recipes");
         return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
     }
