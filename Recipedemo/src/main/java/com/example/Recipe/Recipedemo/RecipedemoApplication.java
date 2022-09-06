@@ -8,8 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RecipedemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RecipedemoApplication.class, args);
+		SpringApplication.run(RecipedemoApplication.class, args);       /*(text search)*/
 		log.info("recipeinfo");
 	}
-
 }

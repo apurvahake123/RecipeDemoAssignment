@@ -15,18 +15,14 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Slf4j
 @RestController
 public class RecipeController {
 
-    //   Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     RecipeService recipeService;
-
     @Autowired
     RecipeRepository recipeRepository;
     @Autowired
@@ -39,9 +35,9 @@ public class RecipeController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = RecipeDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Recipes not found", content = @Content)
     })
-
-    //All recipe details will display here
-
+/**
+ * All recipe details will display here
+ */
     @GetMapping(value = "/recipe")
     public ResponseEntity<List<RecipeDTO>> getAllRecipes() throws Exception {
         List<RecipeDTO> recipeList = recipeService.getAllRecipes();
@@ -57,7 +53,9 @@ public class RecipeController {
             @ApiResponse(responseCode = "404", description = "Recipes not found", content = @Content)
     })
 
-    // here we will get recipe by recipeid
+    /**
+     * here we will get recipe by recipeid
+     */
     @GetMapping(value = "/recipe/{recipeid}")
     public ResponseEntity<RecipeDTO> getRecipe(@PathVariable Integer recipeid) throws Exception {
         RecipeDTO recipe = recipeService.getRecipe(recipeid);
@@ -73,9 +71,9 @@ public class RecipeController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = RecipeDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Recipes not added", content = @Content)
     })
-
-
-    //here we will add  all the recipes
+/**
+ * here we will add all the recipes
+ */
     @PostMapping(value = "/recipe")
     public ResponseEntity<String> addRecipe(@RequestBody RecipeDTO recipe) throws Exception {
         Integer recipeid = recipeService.addRecipe(recipe);
@@ -91,8 +89,9 @@ public class RecipeController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = RecipeDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Recipes not deleted", content = @Content)
     })
-
-    //recipes will delete by recipeid
+/**
+ * recipes will delete by recipeid
+ */
     @DeleteMapping(value = "/recipe/{recipeid}")
     public ResponseEntity<String> deleteRecipe(@PathVariable Integer recipeid) throws Exception {
         recipeService.deleteRecipe(recipeid);
@@ -108,8 +107,9 @@ public class RecipeController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = RecipeDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Recipes not updated", content = @Content)
     })
-
-    //recipes will update by recipeid
+/**
+ * recipes will update by recipeid
+ */
     @PutMapping(value = "/recipe/{recipeid}")
     public ResponseEntity<String> updateRecipe(@PathVariable Integer recipeid, @RequestBody RecipeDTO recipe)
             throws Exception {
@@ -128,8 +128,9 @@ public class RecipeController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = RecipeDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Recipes not found ", content = @Content)
     })
-
-    //will get recipes by recipetype
+/**
+ * will get recipes by recipetype
+ */
     @GetMapping(value = "/recipes/{recipetype}")
     public ResponseEntity<List<RecipeDTO>> getByRecipetype(@PathVariable String recipetype) throws Exception {
         List<RecipeDTO> recipeDTOList = recipeService.getByRecipetype(recipetype);
@@ -144,14 +145,24 @@ public class RecipeController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = RecipeDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Recipes not found", content = @Content)
     })
-
-    //get recipe by capacity of serve
+/**
+ * get recipe by capacity of serve
+ */
     @GetMapping(value = "/recipesServe/{serve}")
     public ResponseEntity<List<RecipeDTO>> getByServe(@PathVariable Integer serve) throws Exception {
         List<RecipeDTO> recipeDTOList = recipeService.getByServe(serve);
         log.info("recipe found by recipeServe");
         log.error("recipe not found");
         return new ResponseEntity<>(recipeDTOList, HttpStatus.OK);
+    }
+
+    /**
+     * Text search
+      */
+    @GetMapping("/search")
+    public ResponseEntity<List<Recipe>> searchRecipe(@RequestParam("query") String query){
+        //  return ResponseEntity.ok(recipeRepository.searchRecipe(query));
+        return new ResponseEntity<List<Recipe>>(recipeRepository.searchRecipe(query),HttpStatus.OK);
     }
 }
 

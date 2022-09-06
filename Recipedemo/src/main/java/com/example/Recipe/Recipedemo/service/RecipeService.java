@@ -5,6 +5,9 @@ import com.example.Recipe.Recipedemo.entity.Recipe;
 
 import java.util.List;
 
+/**
+ * Recipe Service Interface
+ */
 public interface RecipeService {
     public List<RecipeDTO> getAllRecipes() throws Exception;
     public RecipeDTO getRecipe(Integer recipeid) throws Exception;
@@ -13,5 +16,6 @@ public interface RecipeService {
     public Recipe updateRecipe(RecipeDTO recipeDTO) throws Exception;
     public List<RecipeDTO> getByRecipetype(String recipetype);
     public List<RecipeDTO> getByServe(Integer serve);
+    public List<Recipe> searchRecipe(String query);
 
 }
