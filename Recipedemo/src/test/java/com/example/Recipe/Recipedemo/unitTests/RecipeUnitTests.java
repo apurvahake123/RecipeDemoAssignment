@@ -1,4 +1,4 @@
-package com.example.Recipe.Recipedemo.serviceTests;
+package com.example.Recipe.Recipedemo.unitTests;
 
 import com.example.Recipe.Recipedemo.dto.RecipeDTO;
 import com.example.Recipe.Recipedemo.entity.Recipe;
@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class RecipeServiceTests {
+public class RecipeUnitTests {
     @Mock
     RecipeRepository recipeRepository;
     RecipeServiceImpl recipeService;

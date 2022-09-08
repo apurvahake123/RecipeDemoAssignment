@@ -1,0 +1,9 @@
+drop database recipedb;
+create schema recipedb;
+use recipedb;
+
+create table recipe(recipeid int AUTO_INCREMENT PRIMARY KEY, recipename varchar(50),
+recipetype varchar(100), serve int, ingredients varchar(250), instructions varchar(2000));
+
+select * from recipe;
+drop table recipe;

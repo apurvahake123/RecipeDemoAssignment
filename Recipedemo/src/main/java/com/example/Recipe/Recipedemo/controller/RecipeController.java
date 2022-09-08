@@ -60,7 +60,7 @@ public class RecipeController {
     public ResponseEntity<RecipeDTO> getRecipe(@PathVariable Integer recipeid) throws Exception {
         RecipeDTO recipe = recipeService.getRecipe(recipeid);
         log.info("Get recipe by id");
-        log.error("recipe not found");
+      //  log.error("recipe not found");
         return new ResponseEntity<>(recipe, HttpStatus.OK);
     }
 
@@ -76,9 +76,9 @@ public class RecipeController {
  */
     @PostMapping(value = "/recipe")
     public ResponseEntity<String> addRecipe(@RequestBody RecipeDTO recipe) throws Exception {
-        Integer recipeid = recipeService.addRecipe(recipe);
+       Integer recipeid = recipeService.addRecipe(recipe);
         String successMessage = environment.getProperty("API.INSERT_SUCCESS");
-        log.info("Add all recipes");
+       log.info("Add all recipes");
         return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
     }
 
@@ -131,7 +131,7 @@ public class RecipeController {
 /**
  * will get recipes by recipetype
  */
-    @GetMapping(value = "/recipes/{recipetype}")
+    @GetMapping(value = "/recipe/{recipetype}")
     public ResponseEntity<List<RecipeDTO>> getByRecipetype(@PathVariable String recipetype) throws Exception {
         List<RecipeDTO> recipeDTOList = recipeService.getByRecipetype(recipetype);
         log.info("recipe found by recipetype");
@@ -152,7 +152,7 @@ public class RecipeController {
     public ResponseEntity<List<RecipeDTO>> getByServe(@PathVariable Integer serve) throws Exception {
         List<RecipeDTO> recipeDTOList = recipeService.getByServe(serve);
         log.info("recipe found by recipeServe");
-        log.error("recipe not found");
+     //   log.error("recipe not found");
         return new ResponseEntity<>(recipeDTOList, HttpStatus.OK);
     }
 

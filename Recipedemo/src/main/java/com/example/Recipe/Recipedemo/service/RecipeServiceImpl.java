@@ -5,7 +5,6 @@ import com.example.Recipe.Recipedemo.entity.Recipe;
 import com.example.Recipe.Recipedemo.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +62,7 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe recipeEntity2 = recipeRepository.save(recipeEntity);
         return recipeEntity2.getRecipeid();
     }
+
 
     /**
      * will Delete Recipe
