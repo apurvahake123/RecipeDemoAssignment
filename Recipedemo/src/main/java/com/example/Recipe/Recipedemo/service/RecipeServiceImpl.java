@@ -2,6 +2,7 @@ package com.example.Recipe.Recipedemo.service;
 
 import com.example.Recipe.Recipedemo.dto.RecipeDTO;
 import com.example.Recipe.Recipedemo.entity.Recipe;
+import com.example.Recipe.Recipedemo.exception.RecipedemoException;
 import com.example.Recipe.Recipedemo.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * will get all recipes
+     *
      * @return list of RecipeDTO
      * @throws Exception
      */
@@ -40,6 +42,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * will get RecipeDTO by Recipe ID
+     *
      * @param recipeid
      * @return Recipe
      * @throws Exception
@@ -54,6 +57,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * will add new Recipe
+     *
      * @param recipe
      * @throws Exception
      */
@@ -66,6 +70,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * will Delete Recipe
+     *
      * @param recipeid
      * @return null value
      * @throws Exception
@@ -79,6 +84,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * will Update Recipe Information
+     *
      * @param recipeDTO
      * @return Recipe
      * @throws Exception
@@ -91,6 +97,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * will get Recipe By Recipe Type i.e; veg or non-veg
+     *
      * @param recipetype
      * @return list of RecipeDTO
      */
@@ -107,6 +114,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * will get Recipe By number of servings
+     *
      * @param serve
      * @return list of RecipeDTO
      */
@@ -122,15 +130,33 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * will Search Recipe by ingredients and number of Servings
-     * @param query
-     * @return List Of Recipe
+     * will search recipe by ingredients and number of servings
+     * @param ingredients
+     * @param serve
+     * @return List of Recipe
+     * @throws RecipedemoException
      */
-    public List<Recipe> searchRecipe(String query) {
-        List<Recipe> searchRecipe = recipeRepository.searchRecipe(query);
-        return searchRecipe;
+    public List<Recipe> searchRecipe(String ingredients, Integer serve) throws RecipedemoException {
+        List<Recipe> searchRecipe = recipeRepository.findAll();
+        List<Recipe> recipes = new ArrayList<>();
+        if (!searchRecipe.isEmpty()) {
+            for (int i = 0; i<searchRecipe.size();i++) {
+                Recipe recipe = searchRecipe.get(i);
+                if (recipe.getIngredients() != null) {
+                    if (recipe.getIngredients().contains(ingredients) && recipe.getServe() == serve) {
+                        recipes.add(recipe);
+                    }
+                System.out.println("outside ifloop" + recipes);
+            }
+              }
+                return recipes;
+            }
+        else {
+            throw new RecipedemoException("Recipe not found");
+        }
     }
 }
+
 
 
 

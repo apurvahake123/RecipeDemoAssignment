@@ -2,6 +2,7 @@ package com.example.Recipe.Recipedemo.service;
 
 import com.example.Recipe.Recipedemo.dto.RecipeDTO;
 import com.example.Recipe.Recipedemo.entity.Recipe;
+import com.example.Recipe.Recipedemo.exception.RecipedemoException;
 
 import java.util.List;
 
@@ -16,6 +17,6 @@ public interface RecipeService {
     public Recipe updateRecipe(RecipeDTO recipeDTO) throws Exception;
     public List<RecipeDTO> getByRecipetype(String recipetype);
     public List<RecipeDTO> getByServe(Integer serve);
-    public List<Recipe> searchRecipe(String query);
+    public List<Recipe> searchRecipe(String ingredients,Integer serve) throws RecipedemoException;
 
 }

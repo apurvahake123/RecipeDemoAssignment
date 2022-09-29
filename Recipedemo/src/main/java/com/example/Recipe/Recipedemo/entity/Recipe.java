@@ -24,8 +24,4 @@ public class Recipe {
     Integer serve;
     String ingredients;
     String instructions;
-
-    public Object getBody() {
-        return null;
-    }
 }
