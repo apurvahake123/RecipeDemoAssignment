@@ -156,7 +156,13 @@ public class RecipeServiceImpl implements RecipeService {
         }
     }
 
-
+    /**
+     * Specific ingredients (include or exclude)
+     * @param ingredients
+     * @param instructions
+     * @return
+     * @throws RecipedemoException
+     */
     public List<Recipe> findRecipe(String ingredients, String instructions) throws RecipedemoException {
         List<Recipe> searchRecipe = recipeRepository.findAll();
         List<Recipe> recipes = new ArrayList<>();
