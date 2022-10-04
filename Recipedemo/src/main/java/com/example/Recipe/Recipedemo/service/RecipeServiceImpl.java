@@ -131,6 +131,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * will search recipe by ingredients and number of servings
+     *
      * @param ingredients
      * @param serve
      * @return List of Recipe
@@ -140,22 +141,45 @@ public class RecipeServiceImpl implements RecipeService {
         List<Recipe> searchRecipe = recipeRepository.findAll();
         List<Recipe> recipes = new ArrayList<>();
         if (!searchRecipe.isEmpty()) {
-            for (int i = 0; i<searchRecipe.size();i++) {
+            for (int i = 0; i < searchRecipe.size(); i++) {
                 Recipe recipe = searchRecipe.get(i);
                 if (recipe.getIngredients() != null) {
                     if (recipe.getIngredients().contains(ingredients) && recipe.getServe() == serve) {
                         recipes.add(recipe);
                     }
-                System.out.println("outside ifloop" + recipes);
+                    System.out.println("outside ifloop" + recipes);
+                }
             }
-              }
-                return recipes;
+            return recipes;
+        } else {
+            throw new RecipedemoException("Recipe not found");
+        }
+    }
+
+
+    public List<Recipe> findRecipe(String ingredients, String instructions) throws RecipedemoException {
+        List<Recipe> searchRecipe = recipeRepository.findAll();
+        List<Recipe> recipes = new ArrayList<>();
+        if (!searchRecipe.isEmpty()) {
+            for (int i = 0; i < searchRecipe.size(); i++) {
+                Recipe recipe = searchRecipe.get(i);
+                if (recipe.getIngredients() != null) {
+                    if (recipe.getIngredients().contains(ingredients) || recipe.getInstructions().contains(instructions)) {
+                        recipes.add(recipe);
+                    }
+                    else if
+                        (!recipe.getIngredients().contains(ingredients) || !recipe.getInstructions().contains(instructions))
+
+                    System.out.println("outside ifloop" + recipes);
+                }
             }
-        else {
+            return recipes;
+        } else {
             throw new RecipedemoException("Recipe not found");
         }
     }
 }
+
 
 
 

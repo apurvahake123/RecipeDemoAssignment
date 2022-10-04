@@ -18,5 +18,6 @@ public interface RecipeService {
     public List<RecipeDTO> getByRecipetype(String recipetype);
     public List<RecipeDTO> getByServe(Integer serve);
     public List<Recipe> searchRecipe(String ingredients,Integer serve) throws RecipedemoException;
+    public List<Recipe> findRecipe(String ingredients, String instructions) throws RecipedemoException;
 
 }

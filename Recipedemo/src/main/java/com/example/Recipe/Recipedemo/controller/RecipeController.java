@@ -166,6 +166,12 @@ public class RecipeController {
         log.info("{}",searchRecipe);
         return new ResponseEntity<>(searchRecipe,HttpStatus.OK);
     }
+    @GetMapping("/get/{ingredients}/{instructions}")
+    public ResponseEntity<List<Recipe>> searchRecipeByIngredientsAndInstructions(@PathVariable ("ingredients") String ingredients, @PathVariable("instructions") String instructions) throws Exception {
+        List<Recipe> searchRecipe = recipeService.findRecipe(ingredients,instructions);
+        log.info("{}",searchRecipe);
+        return new ResponseEntity<>(searchRecipe,HttpStatus.OK);
+    }
     }
 
 
