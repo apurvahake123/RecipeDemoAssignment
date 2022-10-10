@@ -207,43 +207,5 @@ public class RecipeServiceImpl implements RecipeService {
 
 
 
-   /* public List<RecipeDTO> searchRecipe(SearchDTO searchDTO) throws RecipedemoException {
-        List<Recipe> searchRecipe = recipeRepository.findAll();
-        //  List<RecipeDTO> recipes = new ArrayList<>();
-        List<RecipeDTO> recipeDTOList = new ArrayList<>();
 
-        for (Recipe recipeDTO : searchRecipe) {
-            //  if (searchDTO.getFlag() != null) {
-            //  if (searchDTO.getFlag().equalsIgnoreCase("include")) {
-            if (recipeDTO.getServe() != null) {
-                if (recipeDTO.getServe().equals(searchDTO.getServe())) {
-                    recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
-                }
-            }
-            if (searchDTO.getFlaginstruction().equalsIgnoreCase("include")) {
-                if (recipeDTO.getInstructions().contains(searchDTO.getInstructions())) {
-                    recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
-                }
-            } else if (searchDTO.getFlaginstruction().equalsIgnoreCase("exclude")) {
-                if (!recipeDTO.getInstructions().contains(searchDTO.getInstructions())) {
-                    recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
-                }
-
-
-                if (searchDTO.getFlagingred().equalsIgnoreCase("include")) {
-                    if (recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
-                        recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
-                    }
-                } else if (searchDTO.getFlagingred().equalsIgnoreCase("exclude")) {
-                    if (!recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
-                        recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
-                    }
-                } else {
-                    throw new RecipedemoException("Recipe not found");
-                }
-            }
-
-            return recipeDTOList;
-        }
-    }*/
 
