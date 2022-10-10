@@ -1,6 +1,7 @@
 package com.example.Recipe.Recipedemo.service;
 
 import com.example.Recipe.Recipedemo.dto.RecipeDTO;
+import com.example.Recipe.Recipedemo.dto.SearchDTO;
 import com.example.Recipe.Recipedemo.entity.Recipe;
 import com.example.Recipe.Recipedemo.exception.RecipedemoException;
 import com.example.Recipe.Recipedemo.repository.RecipeRepository;
@@ -130,59 +131,48 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * will search recipe by ingredients and number of servings
+     * Text Search
      *
-     * @param ingredients
-     * @param serve
-     * @return List of Recipe
+     * @param searchDTO
+     * @return recipes
      * @throws RecipedemoException
      */
-    public List<Recipe> searchRecipe(String ingredients, Integer serve) throws RecipedemoException {
+    public List<RecipeDTO> searchRecipe(SearchDTO searchDTO) throws RecipedemoException {
         List<Recipe> searchRecipe = recipeRepository.findAll();
-        List<Recipe> recipes = new ArrayList<>();
-        if (!searchRecipe.isEmpty()) {
-            for (int i = 0; i < searchRecipe.size(); i++) {
-                Recipe recipe = searchRecipe.get(i);
-                if (recipe.getIngredients() != null) {
-                    if (recipe.getIngredients().contains(ingredients) && recipe.getServe() == serve) {
-                        recipes.add(recipe);
+        //  List<RecipeDTO> recipes = new ArrayList<>();
+        List<RecipeDTO> recipeDTOList = new ArrayList<>();
+        for (Recipe recipeDTO : searchRecipe) {
+            if (searchDTO.getFlagingred() != null && searchDTO.getFlaginstruction() !=null && recipeDTO.getServe().equals(searchDTO.getServe()) && recipeDTO.getRecipetype().equalsIgnoreCase(searchDTO.getRecipetype()) ) {
+                if (searchDTO.getFlagingred().equalsIgnoreCase("include") && searchDTO.getFlaginstruction().equalsIgnoreCase("include")) {
+                    if (recipeDTO.getIngredients() != null) {
+                        if (recipeDTO.getIngredients().contains(searchDTO.getIngredients()) || recipeDTO.getInstructions().contains(searchDTO.getInstructions())) {
+                            recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
+                        }
                     }
-                    System.out.println("outside ifloop" + recipes);
+                }
+                if (searchDTO.getFlaginstruction().equalsIgnoreCase("exclude") && searchDTO.getFlaginstruction().equalsIgnoreCase("include")) {
+                    if (!recipeDTO.getInstructions().contains(searchDTO.getInstructions())  || recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
+                        recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
+                    }
+                }
+
+                if (searchDTO.getFlaginstruction().equalsIgnoreCase("include") && searchDTO.getFlaginstruction().equalsIgnoreCase("exclude")) {
+                    if (recipeDTO.getInstructions().contains(searchDTO.getInstructions()) || !recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
+                        recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
+                    }
+                }
+
+                 if (searchDTO.getFlaginstruction().equalsIgnoreCase("exclude") && searchDTO.getFlaginstruction().equalsIgnoreCase("exclude")) {
+                    if (!recipeDTO.getInstructions().contains(searchDTO.getInstructions()) || !recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
+                        recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
+                    }
+                }
+                else {
+                    throw new RecipedemoException("Recipe not found");
                 }
             }
-            return recipes;
-        } else {
-            throw new RecipedemoException("Recipe not found");
         }
-    }
-
-    /**
-     * Specific ingredients (include or exclude)
-     * @param ingredients
-     * @param instructions
-     * @return
-     * @throws RecipedemoException
-     */
-    public List<Recipe> findRecipe(String ingredients, String instructions) throws RecipedemoException {
-        List<Recipe> searchRecipe = recipeRepository.findAll();
-        List<Recipe> recipes = new ArrayList<>();
-        if (!searchRecipe.isEmpty()) {
-            for (int i = 0; i < searchRecipe.size(); i++) {
-                Recipe recipe = searchRecipe.get(i);
-                if (recipe.getIngredients() != null) {
-                    if (recipe.getIngredients().contains(ingredients) || recipe.getInstructions().contains(instructions)) {
-                        recipes.add(recipe);
-                    }
-                    else if
-                        (!recipe.getIngredients().contains(ingredients) || !recipe.getInstructions().contains(instructions))
-
-                    System.out.println("outside ifloop" + recipes);
-                }
-            }
-            return recipes;
-        } else {
-            throw new RecipedemoException("Recipe not found");
-        }
+        return recipeDTOList;
     }
 }
 
@@ -191,4 +181,69 @@ public class RecipeServiceImpl implements RecipeService {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   /* public List<RecipeDTO> searchRecipe(SearchDTO searchDTO) throws RecipedemoException {
+        List<Recipe> searchRecipe = recipeRepository.findAll();
+        //  List<RecipeDTO> recipes = new ArrayList<>();
+        List<RecipeDTO> recipeDTOList = new ArrayList<>();
+
+        for (Recipe recipeDTO : searchRecipe) {
+            //  if (searchDTO.getFlag() != null) {
+            //  if (searchDTO.getFlag().equalsIgnoreCase("include")) {
+            if (recipeDTO.getServe() != null) {
+                if (recipeDTO.getServe().equals(searchDTO.getServe())) {
+                    recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
+                }
+            }
+            if (searchDTO.getFlaginstruction().equalsIgnoreCase("include")) {
+                if (recipeDTO.getInstructions().contains(searchDTO.getInstructions())) {
+                    recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
+                }
+            } else if (searchDTO.getFlaginstruction().equalsIgnoreCase("exclude")) {
+                if (!recipeDTO.getInstructions().contains(searchDTO.getInstructions())) {
+                    recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
+                }
+
+
+                if (searchDTO.getFlagingred().equalsIgnoreCase("include")) {
+                    if (recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
+                        recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
+                    }
+                } else if (searchDTO.getFlagingred().equalsIgnoreCase("exclude")) {
+                    if (!recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
+                        recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
+                    }
+                } else {
+                    throw new RecipedemoException("Recipe not found");
+                }
+            }
+
+            return recipeDTOList;
+        }
+    }*/
 

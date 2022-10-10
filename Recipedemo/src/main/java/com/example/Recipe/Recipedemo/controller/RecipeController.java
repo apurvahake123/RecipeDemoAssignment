@@ -1,6 +1,7 @@
 package com.example.Recipe.Recipedemo.controller;
 
 import com.example.Recipe.Recipedemo.dto.RecipeDTO;
+import com.example.Recipe.Recipedemo.dto.SearchDTO;
 import com.example.Recipe.Recipedemo.repository.RecipeRepository;
 import com.example.Recipe.Recipedemo.entity.Recipe;
 import com.example.Recipe.Recipedemo.service.RecipeService;
@@ -158,29 +159,16 @@ public class RecipeController {
     }
 
     /**
-     * Text search
+     * Text Search
      */
-    @GetMapping("/search/{ingredients}/{serve}")
-    public ResponseEntity<List<Recipe>> searchRecipeWithIngredients(@PathVariable ("ingredients") String ingredients, @PathVariable("serve") Integer serve) throws Exception {
-        List<Recipe> searchRecipe = recipeService.searchRecipe(ingredients, serve);
-        log.info("{}",searchRecipe);
-        return new ResponseEntity<>(searchRecipe,HttpStatus.OK);
+    @PostMapping(value = "/search")
+    public ResponseEntity<List<RecipeDTO>> searchRecipe(@RequestBody SearchDTO searchDTO) throws Exception {
+        List<RecipeDTO> recipeDTOList = recipeService.searchRecipe(searchDTO);
+        log.info("{}", recipeDTOList);
+        return new ResponseEntity<>(recipeDTOList, HttpStatus.CREATED);
     }
+}
 
-    /**
-     * Specific ingredients (include or exclude)
-     * @param ingredients
-     * @param instructions
-     * @return
-     * @throws Exception
-     */
-    @GetMapping("/get/{ingredients}/{instructions}")
-    public ResponseEntity<List<Recipe>> searchRecipeByIngredientsAndInstructions(@PathVariable ("ingredients") String ingredients, @PathVariable("instructions") String instructions) throws Exception {
-        List<Recipe> searchRecipe = recipeService.findRecipe(ingredients,instructions);
-        log.info("{}",searchRecipe);
-        return new ResponseEntity<>(searchRecipe,HttpStatus.OK);
-    }
-    }
 
 
 

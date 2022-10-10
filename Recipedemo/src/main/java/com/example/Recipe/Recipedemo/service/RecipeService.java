@@ -1,6 +1,7 @@
 package com.example.Recipe.Recipedemo.service;
 
 import com.example.Recipe.Recipedemo.dto.RecipeDTO;
+import com.example.Recipe.Recipedemo.dto.SearchDTO;
 import com.example.Recipe.Recipedemo.entity.Recipe;
 import com.example.Recipe.Recipedemo.exception.RecipedemoException;
 
@@ -17,7 +18,8 @@ public interface RecipeService {
     public Recipe updateRecipe(RecipeDTO recipeDTO) throws Exception;
     public List<RecipeDTO> getByRecipetype(String recipetype);
     public List<RecipeDTO> getByServe(Integer serve);
-    public List<Recipe> searchRecipe(String ingredients,Integer serve) throws RecipedemoException;
-    public List<Recipe> findRecipe(String ingredients, String instructions) throws RecipedemoException;
+    public List<RecipeDTO> searchRecipe(SearchDTO searchDTO) throws RecipedemoException;
+
+ //   public List<Recipe> findRecipe(String ingredients, String instructions) throws RecipedemoException;
 
 }
