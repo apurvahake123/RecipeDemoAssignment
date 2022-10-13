@@ -8,9 +8,11 @@ import com.example.Recipe.Recipedemo.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 
@@ -130,6 +132,7 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeDTOs;
     }
 
+
     /**
      * Text Search
      *
@@ -139,31 +142,37 @@ public class RecipeServiceImpl implements RecipeService {
      */
     public List<RecipeDTO> searchRecipe(SearchDTO searchDTO) throws RecipedemoException {
         List<Recipe> searchRecipe = recipeRepository.findAll();
-        //  List<RecipeDTO> recipes = new ArrayList<>();
         List<RecipeDTO> recipeDTOList = new ArrayList<>();
         for (Recipe recipeDTO : searchRecipe) {
-            if (searchDTO.getFlagingred() != null && searchDTO.getFlaginstruction() !=null && recipeDTO.getServe().equals(searchDTO.getServe()) && recipeDTO.getRecipetype().equalsIgnoreCase(searchDTO.getRecipetype()) ) {
-                if (searchDTO.getFlagingred().equalsIgnoreCase("include") && searchDTO.getFlaginstruction().equalsIgnoreCase("include")) {
-                    if (recipeDTO.getIngredients() != null) {
-                        if (recipeDTO.getIngredients().contains(searchDTO.getIngredients()) || recipeDTO.getInstructions().contains(searchDTO.getInstructions())) {
+            if (searchDTO.getIngredients() != null && searchDTO.getIncludeinstruction() !=null &&
+                    recipeDTO.getServe().equals(searchDTO.getServe()) &&
+                    recipeDTO.getRecipetype().equals(searchDTO.getRecipetype())) {
+
+                if (searchDTO.getIncludeingredients().equals(true) &&
+                        searchDTO.getIncludeinstruction().equals(true)) {
+                        if (recipeDTO.getIngredients().contains(searchDTO.getIngredients())
+                              && recipeDTO.getInstructions().contains(searchDTO.getInstructions())) {
                             recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
                         }
-                    }
-                }
-                if (searchDTO.getFlaginstruction().equalsIgnoreCase("exclude") && searchDTO.getFlaginstruction().equalsIgnoreCase("include")) {
-                    if (!recipeDTO.getInstructions().contains(searchDTO.getInstructions())  || recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
+
+                } else if (searchDTO.getIncludeingredients().equals(false) &&
+                        searchDTO.getIncludeinstruction().equals(true)) {
+                    if (!recipeDTO.getIngredients().contains(searchDTO.getIngredients())
+                           && recipeDTO.getInstructions().contains(searchDTO.getInstructions())) {
                         recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
                     }
                 }
-
-                if (searchDTO.getFlaginstruction().equalsIgnoreCase("include") && searchDTO.getFlaginstruction().equalsIgnoreCase("exclude")) {
-                    if (recipeDTO.getInstructions().contains(searchDTO.getInstructions()) || !recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
+                else if (searchDTO.getIncludeingredients().equals(true) &&
+                        searchDTO.getIncludeinstruction().equals(false)) {
+                    if (!recipeDTO.getInstructions().contains(searchDTO.getInstructions())
+                            && recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
                         recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
                     }
                 }
-
-                 if (searchDTO.getFlaginstruction().equalsIgnoreCase("exclude") && searchDTO.getFlaginstruction().equalsIgnoreCase("exclude")) {
-                    if (!recipeDTO.getInstructions().contains(searchDTO.getInstructions()) || !recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
+                else if (searchDTO.getIncludeingredients().equals(false) &&
+                        searchDTO.getIncludeinstruction().equals(false)) {
+                    if (!recipeDTO.getInstructions().contains(searchDTO.getInstructions())
+                           && !recipeDTO.getIngredients().contains(searchDTO.getIngredients())) {
                         recipeDTOList.add(RecipeDTO.valueOf(recipeDTO));
                     }
                 }
@@ -175,37 +184,4 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeDTOList;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

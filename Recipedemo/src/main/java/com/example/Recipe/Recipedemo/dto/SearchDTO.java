@@ -11,8 +11,9 @@ public class SearchDTO {
     Integer serve;
     String ingredients;
     String instructions;
-    String flagingred;
-    String flaginstruction;
+    Boolean includeingredients;
+    Boolean includeinstruction;
+
 
 
 }
